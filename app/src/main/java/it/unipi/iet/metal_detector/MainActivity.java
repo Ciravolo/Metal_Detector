@@ -1,13 +1,11 @@
 package it.unipi.iet.metal_detector;
 
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -24,8 +22,6 @@ import com.github.mikephil.charting.data.LineDataSet;
 
 import java.util.ArrayList;
 
-import it.unipi.iet.smp.smpfragment.ChartFragment;
-
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     private SensorManager mSensorManager;
@@ -35,10 +31,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private int flag;
     private LineChart lineChart;
     private LineData data;
-    private ArrayList <Entry> entries = new ArrayList();
+    private ArrayList <Entry> entries = new ArrayList<>();
     private int time;
     private LineDataSet dataset = new LineDataSet(entries, "Induzione magnetica");
-    private ArrayList <String> labels = new ArrayList();
+    private ArrayList <String> labels = new ArrayList<>();
 
     protected void onResume() {
         super.onResume();
@@ -55,14 +51,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        lineChart = (LineChart) findViewById(R.id.chart);
-        data = new LineData(labels, dataset);
-        try {
-            lineChart.setData(data);
-        } catch (Exception e){System.out.println("No chart data available");}
-        value = (TextView) findViewById(R.id.textView);
+        lineChart = (LineChart) findViewById(R.id.mango);
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         sensor = mSensorManager.getDefaultSensor(sensor.TYPE_MAGNETIC_FIELD);
+        value = (TextView) findViewById(R.id.textView);
         flag = 0;
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener()
@@ -112,34 +104,22 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             int magnitude = (int) Math.sqrt((magX * magX) + (magY * magY) + (magZ * magZ));
             entries.add(new Entry(magnitude, time));
             labels.add(new String(Integer.toString(time)));
+            data = new LineData(labels, dataset);
+            try {
+                lineChart.setData(data);
+            } catch (Exception e){System.out.println(e.getMessage());}
              // set value on the screen
             value.setText(magnitude + " \u00B5Tesla");
             ++time;
         }
     }
 
-    private void displayChartFragment() {
-        ChartFragment chart = (ChartFragment)getFragmentManager().findFragmentById(R.id.frame);
-        if (chart == null) {
-            chart = ChartFragment.newInstance();
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.replace(R.id.frame, chart);
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            ft.commit();
-        }
-    }
-
-    private void removeChartFragment() {
-        Fragment chart = getSupportFragmentManager().findFragmentById(R.id.frame);
-        if(chart != null)
-            getSupportFragmentManager().beginTransaction().remove(chart).commit();
-    }
-
     private void showDetails(int i) {
         if (i == 1) {
-            displayChartFragment();
-        } else {
-            removeChartFragment();
+            onResume();
+        }
+        else {
+            onPause();
         }
     }
 }

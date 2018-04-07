@@ -26,8 +26,9 @@
         android:id="@+id/index" android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-    <FrameLayout android:id="@+id/frame"
+    <fragment class="it.unipi.iet.smp.smpfragment.ChartFragment"
+        android:id="@+id/chart"
         android:layout_weight="1"
-        android:layout_width="0px"
-        android:layout_height="match_parent"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>
