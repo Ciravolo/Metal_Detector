@@ -54,8 +54,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         lineChart = (LineChart) findViewById(R.id.mango);
+
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        sensor = mSensorManager.getDefaultSensor(sensor.TYPE_MAGNETIC_FIELD);
+        mSensorManager.unregisterListener(this);
+
         value = (TextView) findViewById(R.id.textView);
         flag = 0;
         button = (Button) findViewById(R.id.button);
@@ -63,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         {
             public void onClick(View v)
             {
+                sensor = mSensorManager.getDefaultSensor(sensor.TYPE_MAGNETIC_FIELD);
                 flag = 1 - flag;
                 showDetails(flag);
             }
@@ -122,10 +125,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private void showDetails(int i) {
         if (i == 1) {
-            onResume();
+            button.setText("Stop");
+            mSensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
         }
         else {
-            onPause();
+            button.setText("Start");
+            mSensorManager.unregisterListener(this);
         }
     }
 }
