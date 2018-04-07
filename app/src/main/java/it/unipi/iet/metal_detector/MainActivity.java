@@ -6,6 +6,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private int time;
     private LineDataSet dataset = new LineDataSet(entries, "Induzione magnetica");
     private ArrayList <String> labels = new ArrayList<>();
+    private Vibrator v;
 
     protected void onResume() {
         super.onResume();
@@ -66,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
         time = 0;
+        v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
     }
 
     @Override
@@ -102,6 +105,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             float magZ = event.values[2];
 
             int magnitude = (int) Math.sqrt((magX * magX) + (magY * magY) + (magZ * magZ));
+            if(magnitude >= 150) {
+                v.vibrate(500);
+            }
             entries.add(new Entry(magnitude, time));
             labels.add(new String(Integer.toString(time)));
             data = new LineData(labels, dataset);
