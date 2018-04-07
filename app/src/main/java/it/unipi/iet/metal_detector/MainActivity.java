@@ -51,7 +51,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        lineChart = (LineChart) findViewById(R.id.mango);
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        sensor = mSensorManager.getDefaultSensor(sensor.TYPE_MAGNETIC_FIELD);
         value = (TextView) findViewById(R.id.textView);
         flag = 0;
         button = (Button) findViewById(R.id.button);
@@ -103,6 +105,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             entries.add(new Entry(magnitude, time));
             labels.add(new String(Integer.toString(time)));
             data = new LineData(labels, dataset);
+            try {
+                lineChart.setData(data);
+            } catch (Exception e){System.out.println(e.getMessage());}
              // set value on the screen
             value.setText(magnitude + " \u00B5Tesla");
             ++time;
@@ -111,11 +116,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private void showDetails(int i) {
         if (i == 1) {
-            sensor = mSensorManager.getDefaultSensor(sensor.TYPE_MAGNETIC_FIELD);
-            lineChart = (LineChart) findViewById(R.id.chart);
-            try {
-                lineChart.setData(data);
-            } catch (Exception e){System.out.println(e.getMessage());}
+            onResume();
+        }
+        else {
+            onPause();
         }
     }
 }
