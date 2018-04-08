@@ -1,6 +1,7 @@
 package it.unipi.iet.metal_detector;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Sensor sensor;
     private TextView value;
     private Button button;
-    private int flag;
+    private int flag, init;
     private LineChart lineChart;
     private LineData data;
     private ArrayList <Entry> entries = new ArrayList<>();
@@ -54,18 +55,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         lineChart = (LineChart) findViewById(R.id.mango);
-
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mSensorManager.unregisterListener(this);
-
         value = (TextView) findViewById(R.id.textView);
         flag = 0;
+        init = 0;
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v)
             {
-                sensor = mSensorManager.getDefaultSensor(sensor.TYPE_MAGNETIC_FIELD);
+                if(init == 0)
+                    sensor = mSensorManager.getDefaultSensor(sensor.TYPE_MAGNETIC_FIELD);
+                if(init != 1)
+                    init = 1;
                 flag = 1 - flag;
                 showDetails(flag);
             }
@@ -73,6 +75,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         time = 0;
         v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
     }
+
+   /* @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        //int orientation = this.getResources().getConfiguration().orientation;
+
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            setContentView(R.layout.activity_main);
+        } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            setContentView(R.layout.activity_main);
+        }
+
+    } */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

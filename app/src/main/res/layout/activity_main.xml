@@ -23,7 +23,8 @@
         </android.support.design.widget.AppBarLayout>
 
     <fragment class="it.unipi.iet.smp.smpfragment.MesureFragment"
-        android:id="@+id/index" android:layout_weight="1"
+        android:id="@+id/index"
+        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     <fragment class="it.unipi.iet.smp.smpfragment.ChartFragment"
