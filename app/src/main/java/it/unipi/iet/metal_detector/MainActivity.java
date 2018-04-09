@@ -1,7 +1,6 @@
 package it.unipi.iet.metal_detector;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -15,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
@@ -75,20 +73,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         time = 0;
         v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
     }
-
-   /* @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-
-        //int orientation = this.getResources().getConfiguration().orientation;
-
-        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            setContentView(R.layout.activity_main);
-        } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            setContentView(R.layout.activity_main);
-        }
-
-    } */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

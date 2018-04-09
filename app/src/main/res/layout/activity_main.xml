@@ -1,8 +1,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorMesure"
+    android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -19,17 +20,20 @@
             android:background="@android:color/background_dark"
             android:backgroundTint="@android:color/background_dark"
             android:visibility="visible"
-            app:popupTheme="@style/AppTheme.PopupOverlay"/>
-        </android.support.design.widget.AppBarLayout>
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+    </android.support.design.widget.AppBarLayout>
 
-    <fragment class="it.unipi.iet.smp.smpfragment.MesureFragment"
+    <fragment
         android:id="@+id/index"
-        android:layout_weight="1"
+        class="it.unipi.iet.smp.smpfragment.MesureFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-    <fragment class="it.unipi.iet.smp.smpfragment.ChartFragment"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <fragment
         android:id="@+id/chart"
-        android:layout_weight="1"
+        class="it.unipi.iet.smp.smpfragment.ChartFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
 </LinearLayout>
